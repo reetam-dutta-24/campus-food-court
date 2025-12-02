@@ -1,307 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Food Court - API Test Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Food Court - API Testing Dashboard</title>
+
+    <!-- Simple styling -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        body {
+            font-family: Arial, sans-serif;
+            background: #ece9f1;
+            margin: 0;
+            padding: 0;
         }
         .container {
+            width: 85%;
+            margin: auto;
+            padding: 20px;
+        }
+        .header {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 900px;
-            width: 100%;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        h1 { color: #333; margin-bottom: 10px; font-size: 32px; }
-        .subtitle { color: #666; margin-bottom: 30px; font-size: 16px; }
-        .status-box {
-            background: #f8f9fa;
+        .status {
+            margin-top: 10px;
+            padding: 15px;
             border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 4px solid #28a745;
+            font-weight: bold;
         }
-        .status-box.error { 
-            border-left-color: #dc3545;
-            background: #ffe6e6;
-        }
-        .status-box h3 { margin-bottom: 10px; color: #333; }
-        .api-test { margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; }
-        .api-test h3 { margin-bottom: 15px; color: #333; }
-        .api-test button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+        .online { background: #d4f8d4; color: #1b7b1b; }
+        .offline { background: #ffd6d6; color: #a33a3a; }
+
+        button {
+            padding: 10px 15px;
+            margin: 6px;
             cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background: #5871ff;
+            color: white;
             font-size: 14px;
-            margin: 5px;
-            transition: all 0.3s;
-            font-weight: 600;
         }
-        .api-test button:hover { 
-            background: #5568d3; 
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        button:hover {
+            opacity: 0.8;
         }
-        .result {
-            background: #2d3748;
-            color: #a0aec0;
-            padding: 20px;
+
+        .results-box {
+            background: #2d3443;
+            color: white;
+            padding: 15px;
             border-radius: 8px;
             margin-top: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            max-height: 400px;
-            overflow-y: auto;
             white-space: pre-wrap;
-            word-wrap: break-word;
+            min-height: 100px;
         }
-        .vendor-card {
+
+        .card {
             background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
             padding: 20px;
-            margin: 15px 0;
-            transition: all 0.3s;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .vendor-card:hover { 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-            transform: translateY(-3px);
-            border-color: #667eea;
+
+        .vendor-card {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #5871ff;
         }
-        .badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
+
+        .vendor-title {
+            font-size: 18px;
             font-weight: bold;
-            margin-left: 10px;
+            margin-bottom: 5px;
         }
-        .badge.success { background: #c6f6d5; color: #22543d; }
-        .badge.error { background: #fed7d7; color: #742a2a; }
-        .loader { 
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 30px auto;
-        }
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-            padding: 8px;
-            background: white;
-            border-radius: 6px;
-        }
-        .info-label { font-weight: 600; color: #4a5568; }
-        .info-value { color: #2d3748; }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>🍔 Campus Food Court</h1>
-        <p class="subtitle">DevOps Project - UCT512 | API Testing Dashboard</p>
 
-        <div class="status-box" id="statusBox">
-            <h3>System Status: <span id="systemStatus">Checking...</span></h3>
-            <div id="healthInfo"></div>
+        <!-- Header -->
+        <div class="header">
+            <h1>🍔 Campus Food Court</h1>
+            <p>DevOps Project - UCT512 | API Testing Dashboard</p>
+            <div id="systemStatus" class="status offline">
+                ❌ OFFLINE — Cannot connect to backend API
+            </div>
         </div>
 
-        <div class="api-test">
-            <h3>🔧 API Endpoints Testing:</h3>
-            <button onclick="testHealth()">🏥 Health Check</button>
-            <button onclick="testVendors()">🏪 Get Vendors</button>
-            <button onclick="testMenu()">📋 Get Menu</button>
-            <button onclick="testOrders()">📦 Get Orders</button>
+        <!-- API Testing Buttons -->
+        <div class="card">
+            <h2>🔧 API Endpoints Testing:</h2>
+            <button onclick="testHealth()">📍 Health Check</button>
+            <button onclick="getVendors()">🏪 Get Vendors</button>
+            <button onclick="getMenu()">📄 Get Menu</button>
+            <button onclick="getOrders()">📦 Get Orders</button>
             <button onclick="createTestOrder()">➕ Create Test Order</button>
-            <button onclick="clearResult()">🗑️ Clear Results</button>
-            <div class="result" id="result">Click a button above to test API endpoints...</div>
+            <button onclick="clearOutput()">🧹 Clear Results</button>
+
+            <div id="output" class="results-box">Results will appear here...</div>
         </div>
 
-        <div id="vendorsDisplay"></div>
+        <!-- Vendors Section -->
+        <div class="card">
+            <h2>📊 Available Food Vendors:</h2>
+            <div id="vendorsList">Loading vendors...</div>
+        </div>
     </div>
 
+    <!-- SCRIPT SECTION -->
     <script>
-        // Backend URL
-        const API_URL = 'http://localhost:3000';
+        // ✅ Backend API URL - Change this if backend is on different machine
+        const API_BASE = "http://localhost:3000/api";
 
-        window.onload = function() {
-            testHealth();
-            loadVendors();
+
+        // Check backend connection on page load
+        window.onload = async function() {
+            await checkBackendStatus();
+            await loadVendors();
         };
 
+        // Check if backend is online
+        async function checkBackendStatus() {
+            const statusDiv = document.getElementById('systemStatus');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    statusDiv.className = 'status online';
+                    statusDiv.innerHTML = '✅ ONLINE — Connected to backend API';
+                } else {
+                    statusDiv.className = 'status offline';
+                    statusDiv.innerHTML = '❌ OFFLINE — Backend returned error';
+                }
+            } catch (error) {
+                statusDiv.className = 'status offline';
+                statusDiv.innerHTML = '❌ OFFLINE — Cannot connect to backend API';
+            }
+        }
+
+        // Test Health Check
         async function testHealth() {
-            showLoader();
             try {
-                const response = await fetch(`${API_URL}/health`);
+                const response = await fetch(`${API_BASE}/health`);
                 const data = await response.json();
-                
-                document.getElementById('result').innerHTML = 
-                    '✅ Health Check Response:\n\n' + JSON.stringify(data, null, 2);
-                
-                document.getElementById('systemStatus').innerHTML = 
-                    '<span class="badge success">✓ ONLINE</span>';
-                
-                document.getElementById('healthInfo').innerHTML = `
-                    <div class="info-row">
-                        <span class="info-label">Service:</span>
-                        <span class="info-value">${data.service}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Uptime:</span>
-                        <span class="info-value">${Math.floor(data.uptime)} seconds</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Database:</span>
-                        <span class="info-value">${data.database}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Version:</span>
-                        <span class="info-value">${data.version}</span>
-                    </div>
-                `;
-                
-                document.getElementById('statusBox').classList.remove('error');
+                showOutput('Health Check Response:\n' + JSON.stringify(data, null, 2));
+                await checkBackendStatus();
             } catch (error) {
-                document.getElementById('systemStatus').innerHTML = 
-                    '<span class="badge error">✗ OFFLINE</span>';
-                document.getElementById('statusBox').classList.add('error');
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message + '\n\nMake sure backend is running on port 3000!';
-                document.getElementById('healthInfo').innerHTML = 
-                    '<p style="color: #e53e3e;">Cannot connect to backend API</p>';
+                showOutput('❌ Error: ' + error.message);
             }
         }
 
-        async function testVendors() {
-            showLoader();
+        // Get Vendors
+        async function getVendors() {
             try {
-                const response = await fetch(`${API_URL}/api/vendors`);
+                const response = await fetch(`${API_BASE}/vendors`);
                 const data = await response.json();
-                document.getElementById('result').innerHTML = 
-                    `✅ Vendors API Response (${data.length} vendors):\n\n` + 
-                    JSON.stringify(data, null, 2);
+                showOutput('Vendors Response:\n' + JSON.stringify(data, null, 2));
             } catch (error) {
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message;
+                showOutput('❌ Error: ' + error.message);
             }
         }
 
-        async function testMenu() {
-            showLoader();
+        // Get Menu (Vendor 1 as default)
+        async function getMenu() {
             try {
-                const response = await fetch(`${API_URL}/api/menu/1`);
+                const response = await fetch(`${API_BASE}/menu?vendorId=1`);
                 const data = await response.json();
-                document.getElementById('result').innerHTML = 
-                    `✅ Menu API Response (Vendor ID: 1, ${data.length} items):\n\n` + 
-                    JSON.stringify(data, null, 2);
+                showOutput('Menu Response:\n' + JSON.stringify(data, null, 2));
             } catch (error) {
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message;
+                showOutput('❌ Error: ' + error.message);
             }
         }
 
-        async function testOrders() {
-            showLoader();
+        // Get Orders
+        async function getOrders() {
             try {
-                const response = await fetch(`${API_URL}/api/orders`);
+                const response = await fetch(`${API_BASE}/orders`);
                 const data = await response.json();
-                document.getElementById('result').innerHTML = 
-                    `✅ Orders API Response (${data.length} orders):\n\n` + 
-                    JSON.stringify(data, null, 2);
+                showOutput('Orders Response:\n' + JSON.stringify(data, null, 2));
             } catch (error) {
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message;
+                showOutput('❌ Error: ' + error.message);
             }
         }
 
+        // Create Test Order
         async function createTestOrder() {
-            showLoader();
             try {
-                const order = {
-                    vendor_id: 1,
-                    customer_name: 'Test User - ' + new Date().toLocaleTimeString(),
-                    customer_phone: '9876543210',
-                    total_amount: 250.00
-                };
-                
-                const response = await fetch(`${API_URL}/api/orders`, {
+                const response = await fetch(`${API_BASE}/orders`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(order)
+                    body: JSON.stringify({
+                        vendorId: 1,
+                        items: [
+                            { foodId: 1, quantity: 2 },
+                            { foodId: 2, quantity: 1 }
+                        ],
+                        totalAmount: 150,
+                        customerName: 'Test User'
+                    })
                 });
-                
                 const data = await response.json();
-                document.getElementById('result').innerHTML = 
-                    '✅ Order Created Successfully:\n\n' + 
-                    JSON.stringify(data, null, 2);
+                showOutput('Create Order Response:\n' + JSON.stringify(data, null, 2));
             } catch (error) {
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message;
+                showOutput('❌ Error: ' + error.message);
             }
         }
 
+        // Clear Output
+        function clearOutput() {
+            document.getElementById('output').textContent = 'Results cleared. Click a button to test API endpoints...';
+        }
+
+        // Show output in results box
+        function showOutput(text) {
+            document.getElementById('output').textContent = text;
+        }
+
+        // Load and display vendors on page load
         async function loadVendors() {
-            try {
-                const response = await fetch(`${API_URL}/api/vendors`);
-                const vendors = await response.json();
-                
-                const html = vendors.map(v => `
-                    <div class="vendor-card">
-                        <h3>🏪 ${v.name}</h3>
-                        <p><strong>Cuisine:</strong> ${v.cuisine} | <strong>Rating:</strong> ${v.rating}⭐</p>
-                        <button onclick="loadMenu(${v.id}, '${v.name}')">📋 View Menu</button>
-                    </div>
-                `).join('');
-                
-                document.getElementById('vendorsDisplay').innerHTML = 
-                    '<h3>🏪 Available Food Vendors:</h3>' + html;
-            } catch (error) {
-                console.error('Error loading vendors:', error);
-            }
+    const vendorsList = document.getElementById('vendorsList');
+    try {
+        const response = await fetch(`${API_BASE}/vendors`);
+        const data = await response.json();
+        
+        // ✅ FIXED: Backend returns array directly, not { vendors: [...] }
+        if (data && data.length > 0) {
+            vendorsList.innerHTML = '';
+            data.forEach(vendor => {
+                const vendorCard = document.createElement('div');
+                vendorCard.className = 'vendor-card';
+                vendorCard.innerHTML = `
+                    <div class="vendor-title">${vendor.name || vendor.vendor_name}</div>
+                    <div>📍 Location: ${vendor.location || 'Campus'}</div>
+                    <div>📞 Contact: ${vendor.contact || vendor.phone || 'N/A'}</div>
+                `;
+                vendorsList.appendChild(vendorCard);
+            });
+        } else {
+            vendorsList.innerHTML = '<p>No vendors found. Make sure backend and database are running.</p>';
         }
-
-        async function loadMenu(vendorId, vendorName) {
-            showLoader();
-            try {
-                const response = await fetch(`${API_URL}/api/menu/${vendorId}`);
-                const menu = await response.json();
-                document.getElementById('result').innerHTML = 
-                    `✅ Menu for ${vendorName} (${menu.length} items):\n\n` + 
-                    JSON.stringify(menu, null, 2);
-            } catch (error) {
-                document.getElementById('result').innerHTML = 
-                    '❌ Error: ' + error.message;
-            }
-        }
-
-        function showLoader() {
-            document.getElementById('result').innerHTML = '<div class="loader"></div>';
-        }
-
-        function clearResult() {
-            document.getElementById('result').innerHTML = 'Results cleared. Click a button to test API endpoints...';
-        }
+    } catch (error) {
+        vendorsList.innerHTML = '<p style="color: red;">❌ Cannot load vendors. Backend is offline.</p>';
+    }
+}
     </script>
 </body>
 </html>
