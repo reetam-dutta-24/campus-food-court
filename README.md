@@ -104,6 +104,10 @@ A multi-vendor food court management system that aggregates menus from different
 \- Environment variables (.env)
 
 
+## Running Selenium Tests
+npm install selenium-webdriver
+node selenium-test.js
+
 
 ---
 
@@ -466,6 +470,10 @@ docker-compose down
 
 
 \## Project Demo
+
+## Running Selenium Tests
+npm install selenium-webdriver
+node selenium-test.js
 
 
 
