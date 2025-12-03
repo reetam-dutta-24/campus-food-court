@@ -1,20 +1,9 @@
-\# 🍔 Campus Food Court Menu Aggregator + Order Tracker
-
-
-
-\*\*DevOps Project - UCT512\*\*  
-
-\*\*Student:\*\* Reetam Dutta  
-
-\*\*Submission Deadline:\*\* 3rd December, 2025
-
-
-
+\#  Campus Food Court Menu Aggregator + Order Tracker
 ---
 
 
 
-\## 📖 Project Overview
+\##  Project Overview
 
 
 
@@ -42,7 +31,7 @@ A multi-vendor food court management system that aggregates menus from different
 
 
 
-\## 🏗️ Architecture
+\##  Architecture
 
 
 
@@ -120,7 +109,7 @@ A multi-vendor food court management system that aggregates menus from different
 
 
 
-\## 📊 Database Schema
+\##  Database Schema
 
 
 
@@ -152,7 +141,7 @@ A multi-vendor food court management system that aggregates menus from different
 
 
 
-\## 🚀 Setup Instructions
+\##  Setup Instructions
 
 
 
@@ -340,7 +329,7 @@ Response: Updated order confirmation
 
 
 
-\## 🐳 Docker Deployment
+\##  Docker Deployment
 
 
 
@@ -394,81 +383,81 @@ docker-compose down
 
 
 
-\## 📈 DevOps Features Implemented
+\##  DevOps Features Implemented
 
 
 
 \### 1. Version Control
 
-\- ✅ Git repository with meaningful commits
+\-  Git repository with meaningful commits
 
-\- ✅ GitHub remote repository
+\- GitHub remote repository
 
-\- ✅ .gitignore for sensitive files
+\-.gitignore for sensitive files
 
-\- ✅ Branching strategy (main branch)
+\-  Branching strategy (main branch)
 
 
 
 \### 2. Containerization
 
-\- ✅ Dockerfile for backend
+\-  Dockerfile for backend
 
-\- ✅ docker-compose.yml for multi-container setup
+\- docker-compose.yml for multi-container setup
 
-\- ✅ Docker networking
+\-  Docker networking
 
-\- ✅ Volume management for data persistence
+\- Volume management for data persistence
 
-\- ✅ Health checks in containers
+\- Health checks in containers
 
 
 
 \### 3. Configuration Management
 
-\- ✅ Environment variables (.env)
+\-  Environment variables (.env)
 
-\- ✅ Separate configs for dev/prod
+\- Separate configs for dev/prod
 
-\- ✅ Secrets management
+\- Secrets management
 
 
 
 \### 4. API Design
 
-\- ✅ RESTful architecture
+\- RESTful architecture
 
-\- ✅ CORS enabled
+\- CORS enabled
 
-\- ✅ JSON responses
+\- JSON responses
 
-\- ✅ Error handling
+\- Error handling
 
-\- ✅ Status codes (200, 201, 404, 500)
+\- Status codes (200, 201, 404, 500)
 
 
 
 \### 5. Monitoring
 
-\- ✅ Health check endpoint
+\- Health check endpoint
 
-\- ✅ Uptime tracking
+\- Uptime tracking
 
-\- ✅ Database connection status
+\- Database connection status
 
-\- ✅ Logging to console
+\- Logging to console
 
 
 
 \### 6. Database Management
 
-\- ✅ Schema versioning (init.sql)
+\- Schema versioning (init.sql)
 
-\- ✅ Sample data seeding
+\- Sample data seeding
 
-\- ✅ Relational integrity (foreign keys)
+\- Relational integrity (foreign keys)
 
-\- ✅ Indexes for performance
+\- Indexes for performance
 
 
 
@@ -476,7 +465,7 @@ docker-compose down
 
 
 
-\## 🎯 Project Demo
+\## Project Demo
 
 
 
@@ -528,7 +517,7 @@ http-server -p 8080
 
 
 
-\## 📸 Screenshots
+\## Screenshots
 
 
 
@@ -554,7 +543,7 @@ Screenshots available in the project report showing:
 
 
 
-\## 🔒 Security Features
+\## Security Features
 
 
 
@@ -574,7 +563,7 @@ Screenshots available in the project report showing:
 
 
 
-\## 📦 Project Structure
+\## Project Structure
 
 ```
 
@@ -628,7 +617,7 @@ campus-food-court/
 
 
 
-\## 🎓 Learning Outcomes
+\## Learning Outcomes
 
 
 
@@ -654,7 +643,7 @@ campus-food-court/
 
 
 
-\## 🚀 Future Enhancements
+\## Future Enhancements
 
 
 
@@ -680,7 +669,7 @@ campus-food-court/
 
 
 
-\## 👨‍💻 Author
+\## Author
 
 
 
@@ -696,7 +685,7 @@ Cloud Computing Course
 
 
 
-\## 📝 License
+\## License
 
 
 
@@ -708,11 +697,11 @@ This project is submitted as part of academic coursework.
 
 
 
-\## 🙏 Acknowledgments
+\## Acknowledgments
 
 
 
-\- Course Instructor
+\- Course Instructor: Samya Muhuri
 
 \- AWS Academy
 
